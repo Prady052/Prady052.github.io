@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pradyumna Munjewar — Full-Stack AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A2036;
+    --ink-deep:#071627;
+    --panel:#0F2C48;
+    --panel-2:#123456;
+    --grid-line:rgba(130,180,220,0.10);
+    --blueprint:#3E7CA6;
+    --blueprint-bright:#6FA8D6;
+    --amber:#E8A23D;
+    --amber-dim:rgba(232,162,61,0.16);
+    --text:#EAF2F9;
+    --text-muted:#8FAEC4;
+    --text-faint:#5D7C93;
+    --mono:'IBM Plex Mono', monospace;
+    --display:'Space Grotesk', sans-serif;
+    --body:'IBM Plex Sans', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size:40px 40px;
+    background-attachment:fixed;
+  }
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--amber);color:var(--ink-deep);}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{outline:2px solid var(--amber);outline-offset:3px;}
+
+  .wrap{max-width:1100px;margin:0 auto;padding:0 32px;}
+
+  /* corner bracket decoration */
+  .bracket{position:relative;}
+  .bracket::before, .bracket::after{
+    content:'';position:absolute;width:14px;height:14px;
+    border-color:var(--blueprint-bright);opacity:0.55;
+  }
+  .bracket::before{top:-1px;left:-1px;border-top:1.5px solid;border-left:1.5px solid;}
+  .bracket::after{bottom:-1px;right:-1px;border-bottom:1.5px solid;border-right:1.5px solid;}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--amber);display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .eyebrow::before{content:'';width:8px;height:8px;border:1.5px solid var(--amber);transform:rotate(45deg);flex-shrink:0;}
+
+  /* NAV */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(7,22,39,0.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--grid-line);
+  }
+  nav{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;max-width:1100px;margin:0 auto;}
+  .logo{font-family:var(--mono);font-size:15px;font-weight:600;letter-spacing:0.02em;}
+  .logo span{color:var(--amber);}
+  .nav-links{display:flex;gap:34px;font-family:var(--mono);font-size:13px;letter-spacing:0.04em;}
+  .nav-links a{color:var(--text-muted);transition:color .2s;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-cta{
+    font-family:var(--mono);font-size:12px;border:1px solid var(--blueprint);
+    padding:8px 14px;color:var(--text);transition:border-color .2s,background .2s;
+  }
+  .nav-cta:hover{border-color:var(--amber);background:var(--amber-dim);}
+
+  /* HERO */
+  .hero{padding:96px 0 90px;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:64px;align-items:center;}
+  h1{
+    font-family:var(--display);font-size:clamp(32px,4.4vw,52px);font-weight:600;line-height:1.12;
+    letter-spacing:-0.01em;margin-bottom:22px;
+  }
+  h1 em{font-style:normal;color:var(--blueprint-bright);}
+  .hero-sub{color:var(--text-muted);font-size:16.5px;max-width:480px;margin-bottom:34px;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono);font-size:13px;letter-spacing:0.03em;padding:12px 20px;
+    display:inline-flex;align-items:center;gap:8px;transition:all .2s;
+  }
+  .btn-primary{background:var(--amber);color:var(--ink-deep);font-weight:600;}
+  .btn-primary:hover{background:var(--blueprint-bright);}
+  .btn-ghost{border:1px solid var(--blueprint);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--amber);color:var(--amber);}
+
+  /* terminal panel */
+  .terminal{
+    background:var(--panel);border:1px solid var(--grid-line);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+  }
+  .terminal-bar{
+    display:flex;align-items:center;gap:8px;padding:11px 14px;
+    border-bottom:1px solid var(--grid-line);
+  }
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--text-faint);opacity:0.5;}
+  .terminal-title{
+    font-family:var(--mono);font-size:11.5px;color:var(--text-faint);margin-left:6px;letter-spacing:0.03em;
+  }
+  .terminal-body{padding:22px 20px 24px;font-family:var(--mono);font-size:13px;min-height:230px;}
+  .t-line{margin-bottom:12px;color:var(--text-muted);}
+  .t-prompt{color:var(--blueprint-bright);}
+  .t-query{color:var(--text);}
+  .t-answer{color:var(--text);white-space:pre-wrap;}
+  .t-cite{color:var(--amber);}
+  .cursor{display:inline-block;width:7px;height:14px;background:var(--amber);vertical-align:middle;animation:blink 1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .t-meta{
+    margin-top:18px;padding-top:14px;border-top:1px dashed var(--grid-line);
+    font-size:11.5px;color:var(--text-faint);display:flex;gap:16px;flex-wrap:wrap;
+  }
+  .t-meta b{color:var(--blueprint-bright);font-weight:500;}
+
+  /* SECTION SHELL */
+  section{padding:90px 0;border-top:1px solid var(--grid-line);}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:52px;gap:20px;flex-wrap:wrap;}
+  h2{font-family:var(--display);font-size:clamp(24px,3vw,34px);font-weight:600;}
+  .sec-note{font-family:var(--mono);font-size:12px;color:var(--text-faint);text-align:right;}
+
+  /* FEATURED PROJECT */
+  .feature{
+    background:var(--panel);border:1px solid var(--grid-line);padding:44px;position:relative;
+  }
+  .feature-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:8px;}
+  .feature-tag{
+    font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--amber);
+    border:1px solid var(--amber);padding:4px 10px;text-transform:uppercase;
+  }
+  .feature h3{font-family:var(--display);font-size:28px;font-weight:600;margin:14px 0 12px;}
+  .feature p.desc{color:var(--text-muted);max-width:680px;margin-bottom:28px;}
+
+  .pipeline{
+    display:flex;align-items:center;gap:0;overflow-x:auto;padding:24px 4px 30px;margin-bottom:8px;
+    scrollbar-width:thin;
+  }
+  .pipe-node{
+    font-family:var(--mono);font-size:11.5px;color:var(--text);white-space:nowrap;
+    border:1px solid var(--blueprint);padding:9px 13px;background:var(--ink-deep);flex-shrink:0;
+  }
+  .pipe-arrow{color:var(--blueprint);padding:0 10px;flex-shrink:0;font-size:14px;}
+
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--grid-line);margin:32px 0;border:1px solid var(--grid-line);}
+  .stat{background:var(--ink-deep);padding:20px 18px;}
+  .stat b{display:block;font-family:var(--display);font-size:24px;color:var(--amber);margin-bottom:4px;}
+  .stat span{font-family:var(--mono);font-size:11px;color:var(--text-faint);letter-spacing:0.03em;}
+
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;}
+  .tag{font-family:var(--mono);font-size:11.5px;color:var(--blueprint-bright);border:1px solid var(--blueprint);padding:5px 10px;}
+
+  /* PROJECT GRID */
+  .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .proj-card{
+    border:1px solid var(--grid-line);padding:26px;background:var(--panel);
+    display:flex;flex-direction:column;transition:border-color .2s, transform .2s;
+  }
+  .proj-card:hover{border-color:var(--blueprint);transform:translateY(-3px);}
+  .proj-card .p-eyebrow{font-family:var(--mono);font-size:10.5px;color:var(--text-faint);letter-spacing:0.06em;margin-bottom:10px;}
+  .proj-card h4{font-family:var(--display);font-size:19px;font-weight:600;margin-bottom:10px;}
+  .proj-card p{color:var(--text-muted);font-size:14px;margin-bottom:18px;flex-grow:1;}
+  .proj-card .tag-row{margin-top:0;margin-bottom:18px;}
+  .proj-card .tag{font-size:10.5px;padding:4px 8px;}
+  .proj-link{
+    font-family:var(--mono);font-size:12px;color:var(--amber);display:inline-flex;align-items:center;gap:6px;
+  }
+  .proj-link:after{content:'→';transition:transform .2s;}
+  .proj-link:hover:after{transform:translateX(3px);}
+
+  /* STACK */
+  .stack-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grid-line);border:1px solid var(--grid-line);}
+  .stack-col{background:var(--ink-deep);padding:26px 22px;}
+  .stack-col h5{font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--amber);text-transform:uppercase;margin-bottom:16px;}
+  .stack-col ul{list-style:none;}
+  .stack-col li{font-family:var(--body);font-size:13.5px;color:var(--text-muted);padding:6px 0;border-bottom:1px dashed var(--grid-line);}
+  .stack-col li:last-child{border-bottom:none;}
+
+  /* CONTACT */
+  footer{padding:80px 0 50px;}
+  .contact-inner{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:30px;}
+  .contact-inner h2{max-width:520px;}
+  .contact-links{display:flex;flex-direction:column;gap:10px;font-family:var(--mono);font-size:14px;}
+  .contact-links a{color:var(--text-muted);}
+  .contact-links a:hover{color:var(--amber);}
+  .foot-bottom{
+    margin-top:70px;padding-top:22px;border-top:1px solid var(--grid-line);
+    font-family:var(--mono);font-size:11px;color:var(--text-faint);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  }
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    .cursor{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  @media (max-width: 860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .proj-grid{grid-template-columns:1fr;}
+    .stack-grid{grid-template-columns:1fr 1fr;}
+    .stat-row{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">PM<span>/</span>dev</div>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="https://github.com/Prady052" target="_blank" rel="noopener">github.com/Prady052</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Full-Stack AI Engineer</div>
+        <h1>Architecting systems where <em>language models</em> meet real infrastructure.</h1>
+        <p class="hero-sub">I build the backend plumbing self-hosted AI runs on — ingestion pipelines, vector search, and retrieval systems that keep enterprise data off someone else's cloud.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#work">View projects</a>
+          <a class="btn btn-ghost" href="https://github.com/Prady052" target="_blank" rel="noopener">GitHub profile</a>
+        </div>
+      </div>
+
+      <div class="terminal bracket" id="terminal">
+        <div class="terminal-bar">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+          <div class="terminal-title">ragbase — query console</div>
+        </div>
+        <div class="terminal-body" id="term-body">
+          <div class="t-line"><span class="t-prompt">query&gt;</span> <span class="t-query" id="term-query"></span></div>
+          <div class="t-line t-answer" id="term-answer"></div>
+          <div class="t-meta">
+            <span>🔒 <b>0</b> cloud calls</span>
+            <span>⚡ <b>4.2s</b> response</span>
+            <span>📄 source: MSA_2024.pdf</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Featured build</div>
+          <h2>RagBase — self-hosted RAG platform</h2>
+        </div>
+        <div class="sec-note">In active development<br>Status: shipping core pipeline</div>
+      </div>
+
+      <div class="feature reveal">
+        <div class="feature-top">
+          <span class="feature-tag">Enterprise RAG</span>
+        </div>
+        <p class="desc">Enterprises need to query thousands of internal documents without shipping sensitive data to a third-party AI API, and keyword search can't reason about meaning. RagBase is a 100% self-hosted retrieval-augmented generation platform that lets teams upload documents and ask questions in plain language, with every model call running on local infrastructure.</p>
+
+        <div class="pipeline" aria-label="RagBase document processing pipeline">
+          <div class="pipe-node">Upload (PDF/DOCX)</div><div class="pipe-arrow">→</div>
+          <div class="pipe-node">Celery + Redis queue</div><div class="pipe-arrow">→</div>
+          <div class="pipe-node">Chunk + embed (nomic-embed-text)</div><div class="pipe-arrow">→</div>
+          <div class="pipe-node">Qdrant vector search</div><div class="pipe-arrow">→</div>
+          <div class="pipe-node">llama3.2:3b (Ollama)</div><div class="pipe-arrow">→</div>
+          <div class="pipe-node">Cited answer via SSE</div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat"><b>&lt;60s</b><span>PROCESSING · 50-PAGE DOC</span></div>
+          <div class="stat"><b>&lt;8s</b><span>QUERY RESPONSE LATENCY</span></div>
+          <div class="stat"><b>$0</b><span>COST PER QUERY, ZERO CLOUD CALLS</span></div>
+        </div>
+
+        <p class="desc" style="margin-bottom:0;">Backend is FastAPI with JWT-based role access control; the React frontend supports multi-turn chat persisted in PostgreSQL with real-time streaming answers. The whole stack — API, workers, vector DB, and LLM runtime — is containerized with Docker Compose for offline-first deployment on local infrastructure.</p>
+
+        <div class="tag-row">
+          <span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">Celery</span>
+          <span class="tag">Redis</span><span class="tag">Qdrant</span><span class="tag">Ollama / Llama 3</span>
+          <span class="tag">PostgreSQL</span><span class="tag">Docker Compose</span><span class="tag">JWT Auth</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Shipped</div>
+          <h2>Other projects</h2>
+        </div>
+      </div>
+
+      <div class="proj-grid">
+        <div class="proj-card reveal">
+          <div class="p-eyebrow">FULL-STACK · WEB &amp; MOBILE</div>
+          <h4>ChargeHive</h4>
+          <p>An EV charging network app for finding and publishing charging stations with real-time availability. Built end-to-end: a React/Vite frontend with JWT auth and role-based access (Admin, Owner, User), backed by a Java API serving station, booking, and admin operations.</p>
+          <div class="tag-row">
+            <span class="tag">React</span><span class="tag">Java</span><span class="tag">JWT</span><span class="tag">Maps</span>
+          </div>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <a class="proj-link" href="https://github.com/Prady052/ChargeHive-Frontend" target="_blank" rel="noopener">Frontend repo</a>
+            <a class="proj-link" href="https://github.com/Prady052/ChargeHive-Backend" target="_blank" rel="noopener">Backend repo</a>
+          </div>
+        </div>
+
+        <div class="proj-card reveal">
+          <div class="p-eyebrow">FULL-STACK · MEDIA</div>
+          <h4>PopFlix</h4>
+          <p>An app for movie enthusiasts to track what they've watched and write reviews, built around a clean rating and review workflow for a personal film log.</p>
+          <div class="tag-row">
+            <span class="tag">JavaScript</span><span class="tag">REST API</span>
+          </div>
+          <a class="proj-link" href="https://github.com/Prady052/PopFlix" target="_blank" rel="noopener">View repo</a>
+        </div>
+
+        <div class="proj-card reveal">
+          <div class="p-eyebrow">AI · GENERATIVE</div>
+          <h4>Imogen</h4>
+          <p>A text-to-image generator that turns prompts into images and stores the output on Cloudinary, with a gallery for managing and revisiting generations.</p>
+          <div class="tag-row">
+            <span class="tag">JavaScript</span><span class="tag">Cloudinary</span><span class="tag">Image Gen API</span>
+          </div>
+          <a class="proj-link" href="https://github.com/Prady052/Imogen-Text-to-Image-Generator" target="_blank" rel="noopener">View repo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Toolkit</div>
+          <h2>Stack</h2>
+        </div>
+      </div>
+
+      <div class="stack-grid reveal">
+        <div class="stack-col">
+          <h5>Backend</h5>
+          <ul>
+            <li>FastAPI</li>
+            <li>Java (Spring)</li>
+            <li>Node.js</li>
+            <li>REST API design</li>
+            <li>JWT / RBAC</li>
+          </ul>
+        </div>
+        <div class="stack-col">
+          <h5>AI &amp; Data</h5>
+          <ul>
+            <li>RAG pipelines</li>
+            <li>Qdrant (vector search)</li>
+            <li>Ollama / Llama 3</li>
+            <li>Celery + Redis</li>
+            <li>PostgreSQL</li>
+          </ul>
+        </div>
+        <div class="stack-col">
+          <h5>Frontend</h5>
+          <ul>
+            <li>React</li>
+            <li>Vite</li>
+            <li>Tailwind CSS</li>
+            <li>Server-Sent Events</li>
+          </ul>
+        </div>
+        <div class="stack-col">
+          <h5>Infra</h5>
+          <ul>
+            <li>Docker Compose</li>
+            <li>CI/CD</li>
+            <li>Go (learning)</li>
+            <li>Git</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="wrap">
+      <div class="contact-inner">
+        <div>
+          <div class="eyebrow">Get in touch</div>
+          <h2>Building something that needs a self-hosted AI backend? Let's talk.</h2>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:pradymunjewar1009@gmail.com">Email → pradymunjewar1009@gmail.com</a>
+          <a href="https://www.linkedin.com/in/pradyumna-munjewar-264838261/" target="_blank" rel="noopener">LinkedIn → /in/pradyumna-munjewar</a>
+          <a href="https://github.com/Prady052" target="_blank" rel="noopener">GitHub → github.com/Prady052</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>Pradyumna Munjewar</span>
+        <span>Full-Stack AI Engineer</span>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script>
+  // typewriter demo in hero terminal
+  (function(){
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var queryEl = document.getElementById('term-query');
+    var answerEl = document.getElementById('term-answer');
+    var queryText = "\"What's our refund policy for enterprise contracts?\"";
+    var answerParts = [
+      {text:'Refunds for enterprise contracts are processed within 14 business days of a written request, per Section 4.2 of the Master Service Agreement. ', cite:false},
+      {text:'[source: MSA_2024.pdf, p.6]', cite:true}
+    ];
+
+    if(reduceMotion){
+      queryEl.textContent = queryText;
+      answerEl.innerHTML = answerParts.map(function(p){
+        return p.cite ? '<span class="t-cite">'+p.text+'</span>' : p.text;
+      }).join('');
+      return;
+    }
+
+    var i = 0;
+    function typeQuery(){
+      if(i <= queryText.length){
+        queryEl.textContent = queryText.slice(0, i);
+        i++;
+        setTimeout(typeQuery, 22);
+      } else {
+        queryEl.innerHTML += '<span class="cursor"></span>';
+        setTimeout(typeAnswer, 500);
+      }
+    }
+
+    function typeAnswer(){
+      queryEl.querySelector('.cursor')?.remove();
+      var flat = [];
+      answerParts.forEach(function(p){
+        p.text.split('').forEach(function(ch){ flat.push({ch:ch, cite:p.cite}); });
+      });
+      var j = 0;
+      function step(){
+        if(j <= flat.length){
+          var html = '';
+          var openCite = false;
+          flat.slice(0, j).forEach(function(f){
+            if(f.cite && !openCite){ html += '<span class="t-cite">'; openCite = true; }
+            if(!f.cite && openCite){ html += '</span>'; openCite = false; }
+            html += f.ch;
+          });
+          if(openCite) html += '</span>';
+          answerEl.innerHTML = html + '<span class="cursor"></span>';
+          j += 2;
+          setTimeout(step, 12);
+        } else {
+          answerEl.innerHTML = answerEl.innerHTML.replace('<span class="cursor"></span>', '');
+        }
+      }
+      step();
+    }
+
+    setTimeout(typeQuery, 600);
+  })();
+
+  // scroll reveal
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15});
+    els.forEach(function(el){ obs.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
